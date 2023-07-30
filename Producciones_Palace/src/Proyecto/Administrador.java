@@ -4,37 +4,33 @@
  */
 package Proyecto;
 
-
 /**
  *
  * @author Steven
  */
 public class Administrador extends Users{
-    private double salario;
+
+    private boolean isAdmin;
 
     //Constructor para iniciar el administrador
-    public Administrador(String name, String lastname, String userName, String password, String mail, double salario) {
+    public Administrador(String name, String lastname, String userName, String password, String mail, boolean isAdmin) {
         super(name, lastname, userName, password, mail);
-        this.salario = salario;
-    }
-    
-    //Metodos getter y setter para el salario
-    public double getSalario() {
-        return salario;
+        this.isAdmin = isAdmin;
+        allUsers.add(this);
     }
 
-    public void setSalario(double salario) {
-        this.salario = salario;
+    public Administrador(){
+        super();
     }
 
-    // Edite de nuevo el metodo String para poder devolver el salario
     @Override
     public String toString(){
-        return "\nNombre: " + super.getName() + 
-        "\nApellidos: " + super.getLastName() + 
-        "\nNombre de Usuario: " + super.getUserName() + 
-        "\nCorreo: " + super.getMail() + 
-        "\nEstado: " + super.getState() + 
-        "\nSalario: " + this.salario;
+        return  "----- ADMINISTRADOR ----- "+
+                "\nNombre: " + super.getName() +
+                "\nApellidos: " + super.getLastName() +
+                "\nNombre de Usuario: " + super.getUserName() +
+                "\nCorreo: " + super.getMail() +
+                "\nEstado: " + super.getState();
     }
+
 }

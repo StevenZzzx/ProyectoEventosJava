@@ -1,8 +1,14 @@
 package Proyecto;
 
+import java.util.LinkedList;
+import java.util.Objects;
+
 // Esta es una clase abstracta que no se permite ser instanciada con ella misma, solo con sus clases hijas
 // la cuales son administradores y clientes, contiene los atributos necesarios para estas clases
 public abstract class Users {
+
+    public static LinkedList<Users> allUsers = new LinkedList<Users>();
+
     private String name;
     private String lastName;
     private String userName;
@@ -11,6 +17,8 @@ public abstract class Users {
     private boolean state;
 
     // Constructor para iniciar cualquier clase hija de Users
+    public Users(){
+    }
     public Users(String name, String lastname, String userName, String password, String mail) {
         this.name = name;
         this.lastName = lastname;
@@ -44,31 +52,6 @@ public abstract class Users {
         return state;
     }
 
-    // Metodos setters
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public void setMail(String mail) {
-        this.mail = mail;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setState(boolean state) {
-        this.state = state;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
     //Metodo para retornar informacion del usuario en String
     public String toString(){
         return "\nNombre: " + this.name + 
@@ -77,5 +60,47 @@ public abstract class Users {
         "\nCorreo: " + this.mail + 
         "\nEstado: " + this.state;
     }
+
+    public boolean userCheck(String username) {
+        for (Users user : allUsers){
+            if (Objects.equals(user.getUserName(), username)){
+                System.out.println("lo encontre");
+                return true;
+            }
+            System.out.println("no lo encontre");
+        }
+        return false;
+    }
+
+    public void eliminarUsuario(String username) {
+
+    }
+
+    public boolean userLogin(String username, String password) {
+        for (Users user : allUsers){
+            if (Objects.equals(user.getUserName(), username)){
+                if (Objects.equals(user.getPassword(), password)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean verificarUsuarioExistente(String username) {
+        return false;
+    }
+
+    public void printAllUsers(){
+        allUsers.forEach(user -> {
+            System.out.println(user.toString());
+        });
+    }
+
+    public LinkedList<Users> getAllUsers(){
+        return allUsers;
+    };
 
 }

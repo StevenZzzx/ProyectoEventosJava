@@ -3,6 +3,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.LinkedList;
 
 public class LoginGUI extends JFrame implements ActionListener {
 
@@ -10,6 +11,8 @@ public class LoginGUI extends JFrame implements ActionListener {
     private final JTextField usernameField;
     private final JPasswordField passwordField;
     private final JButton loginButton, signUpButton;
+
+    Administrador toDB = new Administrador();
 
     public LoginGUI() {
         // Set up the JFrame
@@ -76,18 +79,21 @@ public class LoginGUI extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == loginButton) {
-            // Handle login button click event
-            String username = usernameField.getText();
-            String password = new String(passwordField.getPassword());
-            // Add your login logic here
-            // For now, let's just print the credentials to the console:
-            System.out.println("Username: " + username);
-            System.out.println("Password: " + password);
+            System.out.println("entere");
+
+            if (toDB.userCheck(usernameField.getText())){
+                if (toDB.userLogin(usernameField.getText(), new String(passwordField.getPassword()))){
+                    JOptionPane.showMessageDialog(this, "Succefully Login In");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Wrong password");
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "User not found");
+            }
+
         } else if (e.getSource() == signUpButton) {
-            // Handle sign-up button click event
-            // Add your sign-up logic here
-            // For now, let's just display a message box:
-            JOptionPane.showMessageDialog(this, "Sign Up clicked!");
+            toDB.printAllUsers();
+//            JOptionPane.showMessageDialog(this, "Sign Up clicked!");
         }
     }
 
@@ -96,12 +102,14 @@ public class LoginGUI extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args) {
-        Administrador usuario = new Administrador("steven", "rodriguez", "steven12", "steven1213", "hol@ho", 2000);
-        Cliente usuario2 = new Cliente("yo", "yo", "yo", "yo", "yo");
-        AlmacenamientoAdministradores Admins = new AlmacenamientoAdministradores();
-        AlmacenamientoClientes clientes = new AlmacenamientoClientes();
-        Admins.registrarAdministrador(usuario);
-        clientes.registrarCliente(usuario2);
+        Cliente usuario = new Cliente("steven", "rodriguez", "steven12", "refr", "hol@ho");
+        Cliente usuario1 = new Cliente("steven1", "rodriguez", "ken", "kkk", "hol@ho");
+        Cliente usuario2 = new Cliente("steven2", "rodriguez", "cet", "caca", "hol@ho");
+        Cliente usuario3 = new Cliente("steven3", "rodriguez", "ads", "mono", "hol@ho");
+
+        Administrador admin1 = new Administrador("pedro", "rodriguez", "pedro", "mono1", "hol@ho", true);
+        Administrador admin2 = new Administrador("pedro", "perez", "pedro", "mono2", "hol@ho", true);
+        Administrador admin3 = new Administrador("pedro", "vargas", "pedro", "mono3", "hol@ho", true);
 
         SwingUtilities.invokeLater(LoginGUI::new);
     }
