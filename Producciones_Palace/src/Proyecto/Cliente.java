@@ -10,6 +10,8 @@ package Proyecto;
  */
 public class Cliente extends Users{
 
+    public static int allUsers;
+
     //Constructor para iniciar el Cliente
     public Cliente(String name, String lastname, String userName, String password, String mail) {
         super(name, lastname, userName, password, mail);
