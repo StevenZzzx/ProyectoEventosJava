@@ -1,6 +1,8 @@
 package Proyecto;
 
-import java.util.LinkedList;
+import java.awt.*;
+import java.io.*;
+import javax.swing.*;
 
 public class TestUsuarios {
     public static void main(String[] args) {
@@ -17,7 +19,5 @@ public class TestUsuarios {
 
         clientes.consultarUsuario("yo");
         Admins.consultarUsuario("steven12");
-        
-
     }  
 }

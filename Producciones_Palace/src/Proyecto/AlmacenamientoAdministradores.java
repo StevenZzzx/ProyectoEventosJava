@@ -64,4 +64,7 @@ public class AlmacenamientoAdministradores extends Almacenamientos {
         return false;
     }
 
+    public LinkedList<Administrador> getAdministradores() {
+        return administradores;
+    }
 }
