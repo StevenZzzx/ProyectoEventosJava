@@ -8,9 +8,9 @@ import java.util.Objects;
 
 public class SingUpGUI extends JPanel implements ActionListener {
 
-    private JLabel nameLabel, lastnameLabel, usernameLabel, passwordLabel, mailLabel;
-    private JTextField nameField, lastnameField, usernameField, passwordField, passwordCheckField, mailField;
-    private JButton createAccountBtn, back2LoginBtn;
+    private final JLabel nameLabel, lastnameLabel, usernameLabel, passwordLabel, mailLabel;
+    private final JTextField nameField, lastnameField, usernameField, passwordField, passwordCheckField, mailField;
+    private final JButton createAccountBtn, back2LoginBtn;
 
     public SingUpGUI() {
 
@@ -91,7 +91,8 @@ public class SingUpGUI extends JPanel implements ActionListener {
         String mail = mailField.getText();
 
         if (e.getSource() == createAccountBtn){
-            if (Users.userCheck(username)) {
+            int index = Users.userCheck(usernameField.getText());
+            if (!Objects.equals(index, -1)){
                 JOptionPane.showMessageDialog(this, "User alredy exist ❌");
                 usernameField.setText("");
             } else if (!Objects.equals(password, password2)) {

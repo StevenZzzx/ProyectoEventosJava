@@ -10,17 +10,10 @@ package Proyecto;
  */
 public class Administrador extends Users{
 
-    private boolean isAdmin;
-
     //Constructor para iniciar el administrador
-    public Administrador(String name, String lastname, String userName, String password, String mail, boolean isAdmin) {
+    public Administrador(String name, String lastname, String userName, String password, String mail) {
         super(name, lastname, userName, password, mail);
-        this.isAdmin = isAdmin;
         allUsers.add(this);
-    }
-
-    public Administrador(){
-        super();
     }
 
     @Override
@@ -28,9 +21,14 @@ public class Administrador extends Users{
         return  "----- ADMINISTRADOR ----- "+
                 "\nNombre: " + super.getName() +
                 "\nApellidos: " + super.getLastName() +
-                "\nNombre de Usuario: " + super.getUserName() +
+                "\nNombre de Usuario: " + super.getUsername() +
                 "\nCorreo: " + super.getMail() +
                 "\nEstado: " + super.getState();
+    }
+
+    public void editEvent(int index){
+        Event event2Edit = super.getMyEvents().get(index);
+
     }
 
 }

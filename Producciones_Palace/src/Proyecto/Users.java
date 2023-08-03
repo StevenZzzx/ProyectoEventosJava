@@ -7,22 +7,17 @@ import java.util.Objects;
 // la cuales son administradores y clientes, contiene los atributos necesarios para estas clases
 public abstract class Users {
 
-    public static LinkedList<Users> allUsers = new LinkedList<Users>();
+    protected static final LinkedList<Users> allUsers = new LinkedList<Users>();
+    private final LinkedList<Event> myEvents = new LinkedList<Event>();
 
-    private String name;
-    private String lastName;
-    private String userName;
-    private String password;
-    private String mail;
+    private final String name, lastname, username, password, mail;
     private boolean state;
 
     // Constructor para iniciar cualquier clase hija de Users
-    public Users(){
-    }
-    public Users(String name, String lastname, String userName, String password, String mail) {
+    public Users(String name, String lastname, String username, String password, String mail) {
         this.name = name;
-        this.lastName = lastname;
-        this.userName = userName;
+        this.lastname = lastname;
+        this.username = username;
         this.password = password;
         this.mail = mail;
     }
@@ -33,11 +28,11 @@ public abstract class Users {
     }
 
     public String getLastName() {
-        return lastName;
+        return lastname;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
     public String getPassword() {
@@ -55,36 +50,31 @@ public abstract class Users {
     //Metodo para retornar informacion del usuario en String
     public String toString(){
         return "\nNombre: " + this.name + 
-        "\nApellidos: " + this.lastName + 
-        "\nNombre de Usuario: " + this.userName + 
+        "\nApellidos: " + this.lastname +
+        "\nNombre de Usuario: " + this.username +
         "\nCorreo: " + this.mail + 
         "\nEstado: " + this.state;
     }
 
-    public static boolean userCheck(String username) {
-        for (Users user : allUsers){
-            if (Objects.equals(user.getUserName(), username)){
-                return true;
+    public static int userCheck(String username) {
+        for (int i= 0; i < allUsers.size(); i++){
+            if (Objects.equals(allUsers.get(i).getUsername(), username)){
+                return i;
             }
+        }
+        return -1;
+    }
+
+    public static boolean userLogin(int index, String username, String password) {
+        Users user = allUsers.get(index);
+        if (Objects.equals(user.getUsername(), username)){
+            return Objects.equals(user.getPassword(), password);
         }
         return false;
     }
 
-    public void eliminarUsuario(String username) {
-
-    }
-
-    public static boolean userLogin(String username, String password) {
-        for (Users user : allUsers){
-            if (Objects.equals(user.getUserName(), username)){
-                return Objects.equals(user.getPassword(), password);
-            }
-        }
-        return false;
-    }
-
-    public boolean verificarUsuarioExistente(String username) {
-        return false;
+    public static Users returnUser(int index){
+        return allUsers.get(index);
     }
 
     public static void printAllUsers(){
@@ -93,8 +83,30 @@ public abstract class Users {
         });
     }
 
+    public void printAllMyEvents(){
+        myEvents.forEach(event -> {
+            System.out.println(event.toString());
+        });
+    }
+
     public static LinkedList<Users> getAllUsers(){
         return allUsers;
-    };
+    }
+
+    public void addEvent(Event event){
+        myEvents.add(event);
+    }
+
+    public LinkedList<Event> getMyEvents(){
+        return myEvents;
+    }
+
+    public String returnClass(){
+        if (this.getClass() == Administrador.class){
+            return "admin";
+        } else {
+            return "cliente";
+        }
+    }
 
 }

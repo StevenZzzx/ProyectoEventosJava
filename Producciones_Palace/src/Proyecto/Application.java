@@ -6,8 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Application extends JFrame implements ActionListener {
-    private JPanel cards;
-    private CardLayout cardLayout;
+    private final JPanel cards;
+    private final CardLayout cardLayout;
 
     private Application(){
         setTitle("Application");
@@ -67,6 +67,10 @@ public class Application extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args) {
+        Administrador admin = new Administrador("Kenneth", "Fuentes", "kenfu", "123", "kenfu@mail.com");
+        Administrador admin2 = new Administrador("Kenneth", "Fuentes", "kenfu1", "1234", "kenfu@mail.com");
+
         SwingUtilities.invokeLater(Application::new);
+
     }
 }

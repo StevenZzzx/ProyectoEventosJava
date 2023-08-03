@@ -3,13 +3,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Objects;
 
 public class LoginGUI extends JPanel implements ActionListener{
 
     private JLabel usernameLabel, passwordLabel, signUpLabel;
-    private JTextField usernameField;
-    private JPasswordField passwordField;
-    private JButton loginButton, signUpButton;
+    private final JTextField usernameField;
+    private final JPasswordField passwordField;
+    private final JButton loginButton, signUpButton;
 
 
     public LoginGUI() {
@@ -63,11 +64,16 @@ public class LoginGUI extends JPanel implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == loginButton) {
-            if (Users.userCheck(usernameField.getText())){
-                if (Users.userLogin(usernameField.getText(), new String(passwordField.getPassword()))){
+            int index = Users.userCheck(usernameField.getText());
+            if (!Objects.equals(index, -1)){
+                if (Users.userLogin(index, usernameField.getText(), new String(passwordField.getPassword()))){
                     JOptionPane.showMessageDialog(this, "Succefully Login In");
+                    Users user = Users.returnUser(index);
+                    JOptionPane.showMessageDialog(this, "Usuario: " + user.getName() +
+                            "\n" + user.returnClass());
                 } else {
                     JOptionPane.showMessageDialog(this, "Wrong password");
+                    passwordField.setText("");
                 }
             } else {
                 JOptionPane.showMessageDialog(this, "User not found");
