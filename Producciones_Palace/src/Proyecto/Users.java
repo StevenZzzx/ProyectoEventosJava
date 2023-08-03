@@ -61,13 +61,11 @@ public abstract class Users {
         "\nEstado: " + this.state;
     }
 
-    public boolean userCheck(String username) {
+    public static boolean userCheck(String username) {
         for (Users user : allUsers){
             if (Objects.equals(user.getUserName(), username)){
-                System.out.println("lo encontre");
                 return true;
             }
-            System.out.println("no lo encontre");
         }
         return false;
     }
@@ -76,14 +74,10 @@ public abstract class Users {
 
     }
 
-    public boolean userLogin(String username, String password) {
+    public static boolean userLogin(String username, String password) {
         for (Users user : allUsers){
             if (Objects.equals(user.getUserName(), username)){
-                if (Objects.equals(user.getPassword(), password)) {
-                    return true;
-                } else {
-                    return false;
-                }
+                return Objects.equals(user.getPassword(), password);
             }
         }
         return false;
@@ -93,13 +87,13 @@ public abstract class Users {
         return false;
     }
 
-    public void printAllUsers(){
+    public static void printAllUsers(){
         allUsers.forEach(user -> {
             System.out.println(user.toString());
         });
     }
 
-    public LinkedList<Users> getAllUsers(){
+    public static LinkedList<Users> getAllUsers(){
         return allUsers;
     };
 

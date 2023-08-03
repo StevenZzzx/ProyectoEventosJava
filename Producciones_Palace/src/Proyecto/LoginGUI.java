@@ -3,28 +3,20 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.LinkedList;
 
-public class LoginGUI extends JFrame implements ActionListener {
+public class LoginGUI extends JPanel implements ActionListener{
 
-    private final JLabel usernameLabel, passwordLabel, signUpLabel;
-    private final JTextField usernameField;
-    private final JPasswordField passwordField;
-    private final JButton loginButton, signUpButton;
+    private JLabel usernameLabel, passwordLabel, signUpLabel;
+    private JTextField usernameField;
+    private JPasswordField passwordField;
+    private JButton loginButton, signUpButton;
 
-    Administrador toDB = new Administrador();
 
     public LoginGUI() {
-        // Set up the JFrame
-        setTitle("Login Application");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setPreferredSize(new Dimension(500, 500));
 
-        // Create a panel to hold the components with margins
-        JPanel panel = new JPanel(new GridBagLayout());
-        panel.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
+        setLayout(new GridBagLayout());
+        setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
 
-        // Initialize components
         usernameLabel = new JLabel("Username:");
         passwordLabel = new JLabel("Password:");
         signUpLabel = new JLabel("You dont have a Account?");
@@ -34,55 +26,45 @@ public class LoginGUI extends JFrame implements ActionListener {
         signUpButton = new JButton("Sign Up");
 
         // Add components to the panel using GridBagLayout
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.insets = new Insets(5, 5, 5, 5);
-        panel.add(usernameLabel, gbc);
+        GridBagConstraints gridPosition = new GridBagConstraints();
+        gridPosition.gridx = 0;
+        gridPosition.gridy = 0;
+        gridPosition.anchor = GridBagConstraints.WEST;
+        gridPosition.insets = new Insets(5, 5, 5, 5);
+        add(usernameLabel, gridPosition);
 
-        gbc.gridy = 1;
-        panel.add(usernameField, gbc);
+        gridPosition.gridy = 1;
+        add(usernameField, gridPosition);
 
-        gbc.gridy = 2;
-        panel.add(passwordLabel, gbc);
+        gridPosition.gridy = 2;
+        add(passwordLabel, gridPosition);
 
-        gbc.gridy = 3;
-        panel.add(passwordField, gbc);
+        gridPosition.gridy = 3;
+        add(passwordField, gridPosition);
 
-        gbc.gridy = 4;
-        gbc.gridwidth = 2;
-        gbc.fill = GridBagConstraints.NONE;
-        gbc.anchor = GridBagConstraints.CENTER;
-        gbc.weightx = 0.0;
-        panel.add(loginButton, gbc);
+        gridPosition.gridy = 4;
+        gridPosition.gridwidth = 2;
+        gridPosition.fill = GridBagConstraints.NONE;
+        gridPosition.anchor = GridBagConstraints.CENTER;
+        gridPosition.weightx = 0.0;
+        add(loginButton, gridPosition);
 
-        gbc.gridy = 5;
-        panel.add(signUpLabel, gbc);
+        gridPosition.gridy = 5;
+        add(signUpLabel, gridPosition);
 
-        gbc.gridy = 6;
-        panel.add(signUpButton, gbc);
+        gridPosition.gridy = 6;
+        add(signUpButton, gridPosition);
 
-        // Add action listeners to buttons
         loginButton.addActionListener(this);
         signUpButton.addActionListener(this);
 
-        // Add the panel to the JFrame
-        add(panel);
-
-        // Pack the JFrame and make it visible
-        pack();
-        setLocationRelativeTo(null);
-        setVisible(true);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == loginButton) {
-            System.out.println("entere");
-
-            if (toDB.userCheck(usernameField.getText())){
-                if (toDB.userLogin(usernameField.getText(), new String(passwordField.getPassword()))){
+            if (Users.userCheck(usernameField.getText())){
+                if (Users.userLogin(usernameField.getText(), new String(passwordField.getPassword()))){
                     JOptionPane.showMessageDialog(this, "Succefully Login In");
                 } else {
                     JOptionPane.showMessageDialog(this, "Wrong password");
@@ -92,26 +74,10 @@ public class LoginGUI extends JFrame implements ActionListener {
             }
 
         } else if (e.getSource() == signUpButton) {
-            toDB.printAllUsers();
-//            JOptionPane.showMessageDialog(this, "Sign Up clicked!");
+            Application principalApp = (Application) SwingUtilities.getWindowAncestor(this);
+            principalApp.changeToSignUpGUI();
         }
     }
 
-    public static void searchInDB(String username){
-        
-    }
-
-    public static void main(String[] args) {
-        Cliente usuario = new Cliente("steven", "rodriguez", "steven12", "refr", "hol@ho");
-        Cliente usuario1 = new Cliente("steven1", "rodriguez", "ken", "kkk", "hol@ho");
-        Cliente usuario2 = new Cliente("steven2", "rodriguez", "cet", "caca", "hol@ho");
-        Cliente usuario3 = new Cliente("steven3", "rodriguez", "ads", "mono", "hol@ho");
-
-        Administrador admin1 = new Administrador("pedro", "rodriguez", "pedro", "mono1", "hol@ho", true);
-        Administrador admin2 = new Administrador("pedro", "perez", "pedro", "mono2", "hol@ho", true);
-        Administrador admin3 = new Administrador("pedro", "vargas", "pedro", "mono3", "hol@ho", true);
-
-        SwingUtilities.invokeLater(LoginGUI::new);
-    }
 }
 

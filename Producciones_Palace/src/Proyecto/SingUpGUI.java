@@ -6,145 +6,118 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Objects;
 
-public class SingUpGUI extends JFrame implements ActionListener {
-    private final JLabel nameLabel, lastNameLabel, usernameLabel, passwordLabel, mailLabel;
-    private final JTextField nameField, lastNameField, usernameField, passwordField, passwordCheckField, mailField;
-    private final JButton createAccountBtn, printAllUserBtn;
+public class SingUpGUI extends JPanel implements ActionListener {
 
-    Administrador toDB = new Administrador();
+    private JLabel nameLabel, lastnameLabel, usernameLabel, passwordLabel, mailLabel;
+    private JTextField nameField, lastnameField, usernameField, passwordField, passwordCheckField, mailField;
+    private JButton createAccountBtn, back2LoginBtn;
 
     public SingUpGUI() {
-        // Set up the JFrame
-        setTitle("Sign Up Application");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setPreferredSize(new Dimension(500, 500));
 
-        // Create a panel to hold the components with margins
-        JPanel panel = new JPanel(new GridBagLayout());
-        panel.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
+        setLayout(new GridBagLayout());
+        setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
 
-        // Initialize components
         nameLabel = new JLabel("Name:");
-        lastNameLabel = new JLabel("Last name:");
+        lastnameLabel = new JLabel("Last name:");
         usernameLabel = new JLabel("Username:");
         passwordLabel = new JLabel("Password:");
         mailLabel = new JLabel("E-mail:");
 
         nameField = new JTextField(20);
-        lastNameField = new JTextField(20);
+        lastnameField = new JTextField(20);
         usernameField = new JTextField(20);
         passwordField = new JTextField(20);
         passwordCheckField = new JTextField(20);
         mailField = new JTextField(20);
 
         createAccountBtn = new JButton("Create account");
-        printAllUserBtn = new JButton("Print");
+        back2LoginBtn = new JButton("Back");
 
-        // Add components to the panel using GridBagLayout
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.insets = new Insets(5, 5, 5, 5);
-        panel.add(nameLabel, gbc);
+        GridBagConstraints gridPosition = new GridBagConstraints();
+        gridPosition.gridx = 0;
+        gridPosition.gridy = 0;
+        gridPosition.anchor = GridBagConstraints.WEST;
+        gridPosition.insets = new Insets(5, 5, 5, 5);
+        add(nameLabel, gridPosition);
 
-        gbc.gridy = 1;
-        panel.add(nameField, gbc);
+        gridPosition.gridy = 1;
+        add(nameField, gridPosition);
 
-        gbc.gridy = 2;
-        panel.add(lastNameLabel, gbc);
+        gridPosition.gridy = 2;
+        add(lastnameLabel, gridPosition);
 
-        gbc.gridy = 3;
-        panel.add(lastNameField, gbc);
+        gridPosition.gridy = 3;
+        add(lastnameField, gridPosition);
 
-        gbc.gridy = 4;
-        panel.add(usernameLabel, gbc);
+        gridPosition.gridy = 4;
+        add(usernameLabel, gridPosition);
 
-        gbc.gridy = 5;
-        panel.add(usernameField, gbc);
+        gridPosition.gridy = 5;
+        add(usernameField, gridPosition);
 
-        gbc.gridy = 6;
-        panel.add(passwordLabel, gbc);
+        gridPosition.gridy = 6;
+        add(passwordLabel, gridPosition);
 
-        gbc.gridy = 7;
-        panel.add(passwordField, gbc);
+        gridPosition.gridy = 7;
+        add(passwordField, gridPosition);
 
-        gbc.gridy = 8;
-        panel.add(passwordCheckField, gbc);
+        gridPosition.gridy = 8;
+        add(passwordCheckField, gridPosition);
 
-        gbc.gridy = 9;
-        panel.add(mailLabel, gbc);
+        gridPosition.gridy = 9;
+        add(mailLabel, gridPosition);
 
-        gbc.gridy = 10;
-        panel.add(mailField, gbc);
+        gridPosition.gridy = 10;
+        add(mailField, gridPosition);
 
-        gbc.gridy = 11;
-//        gbc.anchor = GridBagConstraints.CENTER;
-        panel.add(createAccountBtn, gbc);
+        gridPosition.gridy = 11;
+        add(createAccountBtn, gridPosition);
 
-        gbc.gridx = 1;
-        panel.add(printAllUserBtn, gbc);
+        gridPosition.gridx = 1;
+        add(back2LoginBtn, gridPosition);
 
-        // Add action listeners to buttons
         createAccountBtn.addActionListener(this);
-        printAllUserBtn.addActionListener(this);
-
-        // Add the panel to the JFrame
-        add(panel);
-
-        // Pack the JFrame and make it visible
-        pack();
-        setLocationRelativeTo(null);
-        setVisible(true);
+        back2LoginBtn.addActionListener(this);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
         String name = nameField.getText();
-        String lastname = lastNameField.getText();
+        String lastname = lastnameField.getText();
         String username = usernameField.getText();
         String password = passwordField.getText();
         String password2 = passwordCheckField.getText();
         String mail = mailField.getText();
 
-        if (e.getSource() == createAccountBtn && validateData(name,lastname, username,password,password2,mail)) {
-            if (toDB.userCheck(username)){
-                JOptionPane.showMessageDialog(this, "User alredy exist");
+        if (e.getSource() == createAccountBtn){
+            if (Users.userCheck(username)) {
+                JOptionPane.showMessageDialog(this, "User alredy exist ❌");
                 usernameField.setText("");
+            } else if (!Objects.equals(password, password2)) {
+                JOptionPane.showMessageDialog(this, "Diferent password ❌");
+                passwordCheckField.setText("");
+            } else if (!ValidateUtil.checkNoEmpty(new String[]{name, lastname, username, password, mail})) {
+                JOptionPane.showMessageDialog(this, "All the spaces need to be filled ❌");
             } else {
-                new Cliente(name,lastname, username,password,mail);
+                JOptionPane.showMessageDialog(this, "Sign Up successfuly ✔");
+                new Cliente(name, lastname, username, password, mail);
                 cleanAll();
+
             }
-        } else if (e.getSource() == printAllUserBtn) {
-            toDB.printAllUsers();
+        } else if (e.getSource() == back2LoginBtn){
+            Application principalApp = (Application) SwingUtilities.getWindowAncestor(this);
+            principalApp.changeToLoginGUI();
         }
-    }
 
-    private boolean validateData(String name, String lastname, String username, String password, String checkPassword, String mail){
-        if (!Objects.equals(password, checkPassword)){
-            JOptionPane.showMessageDialog(this, "Diferent password");
-            return false;
-        }
-        else if (!Objects.equals(name, "") && !Objects.equals(lastname, "") && !Objects.equals(username, "") &&
-                !Objects.equals(password, "") && !Objects.equals(mail, "")) {
-            return true;
-        } else {
-            JOptionPane.showMessageDialog(this, "All the spaces need to be not empty");
-            return false;
-
-        }
     }
 
     private void cleanAll(){
         nameField.setText("");
-        lastNameField.setText("");
+        lastnameField.setText("");
         usernameField.setText("");
         passwordField.setText("");
         passwordCheckField.setText("");
         mailField.setText("");
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(SingUpGUI::new);
     }
 }
