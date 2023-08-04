@@ -13,6 +13,8 @@ public class Application extends JFrame implements ActionListener {
         setTitle("Application");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setPreferredSize(new Dimension(500, 500));
+        setMinimumSize(new Dimension(500, 500));
+
 
         cardLayout = new CardLayout();
         cards = new JPanel(cardLayout);
