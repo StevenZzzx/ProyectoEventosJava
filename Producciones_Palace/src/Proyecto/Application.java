@@ -1,13 +1,20 @@
 package Proyecto;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class Application extends JFrame implements ActionListener {
     private final JPanel cards;
     private final CardLayout cardLayout;
+    private int counter;
+    private JLabel counterLabel;
+    private Timer timer;
 
     private Application(){
         setTitle("Application");
@@ -36,21 +43,44 @@ public class Application extends JFrame implements ActionListener {
         setVisible(true);
     }
 
-    private JPanel createApplication(){
+    private JPanel createApplication() {
 
         JPanel principalPanel = new JPanel(new GridBagLayout());
         principalPanel.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
 
-        JButton startBtn = new JButton("Empezar");
+        JLabel tittleLabel = new JLabel("Bienvenido a Producciones Palace");
+        tittleLabel.setFont(new Font("Verdana", Font.BOLD, 20));
+
+        JLabel imageLabel = new JLabel();
+        imageLabel.setIcon(new ImageIcon("C:\\Users\\Kennito\\Documents\\Proyecto_Steven\\ProyectoEventosJava" +
+                "\\Producciones_Palace\\src\\img\\ticketsIcon.png"));
+
+        counterLabel = new JLabel("Cargando: " + counter + "%");
+        counterLabel.setFont(new Font("Verdana", Font.BOLD, 16));
 
         GridBagConstraints gridLocations = new GridBagConstraints();
         gridLocations.gridx = 0;
         gridLocations.gridy = 0;
-        gridLocations.anchor = GridBagConstraints.WEST;
+        gridLocations.anchor = GridBagConstraints.CENTER;
         gridLocations.insets = new Insets(5, 5, 5, 5);
-        principalPanel.add(startBtn, gridLocations);
+        principalPanel.add(tittleLabel, gridLocations);
+        gridLocations.gridy = 1;
+        principalPanel.add(imageLabel, gridLocations);
+        gridLocations.gridy = 2;
+        principalPanel.add(counterLabel, gridLocations);
 
-        startBtn.addActionListener(e -> changeToLoginGUI());
+        timer = new Timer(200, e -> {
+
+            counter += 5;
+            if (counter > 100) {
+                counter = 100;
+                timer.stop();
+                changeToLoginGUI();
+            }
+            counterLabel.setText("Cargando: " + counter + "%");
+        });
+
+        timer.start();
 
         return principalPanel;
     }
