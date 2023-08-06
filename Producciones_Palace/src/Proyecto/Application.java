@@ -68,8 +68,14 @@ public class Application extends JFrame implements ActionListener {
         cardLayout.show(cards, "signUp");
     }
 
+    public void changeToPrincipalMenu(Users user){
+        JPanel principalMenuPanel = new PrincipalMenu(user);
+        cards.add(principalMenuPanel, "principal");
+        cardLayout.show(cards, "principal");
+    }
+
     public static void main(String[] args) {
-        Administrador admin = new Administrador("Kenneth", "Fuentes", "kenfu", "123", "kenfu@mail.com");
+        Cliente cliente = new Cliente("Kenneth", "Fuentes", "kenfu", "123", "kenfu@mail.com");
         Administrador admin2 = new Administrador("Kenneth", "Fuentes", "kenfu1", "1234", "kenfu@mail.com");
 
         SwingUtilities.invokeLater(Application::new);

@@ -63,14 +63,13 @@ public class LoginGUI extends JPanel implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        Application principalApp = (Application) SwingUtilities.getWindowAncestor(this);
         if (e.getSource() == loginButton) {
             int index = Users.userCheck(usernameField.getText());
             if (!Objects.equals(index, -1)){
                 if (Users.userLogin(index, usernameField.getText(), new String(passwordField.getPassword()))){
-                    JOptionPane.showMessageDialog(this, "Succefully Login In");
                     Users user = Users.returnUser(index);
-                    JOptionPane.showMessageDialog(this, "Usuario: " + user.getName() +
-                            "\n" + user.returnClass());
+                    principalApp.changeToPrincipalMenu(user);
                 } else {
                     JOptionPane.showMessageDialog(this, "Wrong password");
                     passwordField.setText("");
@@ -80,7 +79,6 @@ public class LoginGUI extends JPanel implements ActionListener{
             }
 
         } else if (e.getSource() == signUpButton) {
-            Application principalApp = (Application) SwingUtilities.getWindowAncestor(this);
             principalApp.changeToSignUpGUI();
         }
     }
